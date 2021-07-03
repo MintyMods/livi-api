@@ -77,15 +77,19 @@ const ServicePoller = () => {
   }
 
   const editService = (service) => {
-    document.getElementById(UI_SERVICE_NAME).value = service.name;
-    document.getElementById(UI_SERVICE_URL).value = service.url;
+    setValue(UI_SERVICE_NAME, service.name);
+    setValue(UI_SERVICE_URL, service.url);
   }
 
   const clearService = () => {
-    document.getElementById(UI_SERVICE_NAME).value = '';
-    document.getElementById(UI_SERVICE_URL).value = '';
+    setValue(UI_SERVICE_NAME, '');
+    setValue(UI_SERVICE_URL, '');
   }
   
+  const setValue = (id, value) => {
+    document.getElementById(id).value = value;
+  }
+
   const i18n = (msg) => {
     return msg.replace(/([a-z])([A-Z])/g, '$1 $2');
   }
