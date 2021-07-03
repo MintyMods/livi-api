@@ -2,7 +2,10 @@ import { React, ReactDOM } from "https://unpkg.com/es-react/dev";
 import htm from "https://cdn.pika.dev/htm";
 
 const html = htm.bind(React.createElement);
-const BACKEND_URL = "/service";
+const BACKEND_URL = '/service';
+const UI_SERVICE_NAME = 'ServiceName';
+const UI_SERVICE_URL = 'ServiceURL';
+
 
 const ServicePoller = () => {
   const [error, setError] = React.useState(null);
@@ -29,7 +32,7 @@ const ServicePoller = () => {
       body,
     })
     .then((res) => checkResponse(res))
-    .then((res) => (services = res))
+    .then((res) => setServices(res))
     .catch(setError);  
   }
 
@@ -74,13 +77,19 @@ const ServicePoller = () => {
   }
 
   const editService = (service) => {
-    document.getElementById('url-input').value = service.url;
+    document.getElementById(UI_SERVICE_NAME).value = service.name;
+    document.getElementById(UI_SERVICE_URL).value = service.url;
   }
 
   const clearService = () => {
-    document.getElementById('url-input').value="";
+    document.getElementById(UI_SERVICE_NAME).value = '';
+    document.getElementById(UI_SERVICE_URL).value = '';
   }
   
+  const i18n = (msg) => {
+    return msg.replace(/([a-z])([A-Z])/g, '$1 $2');
+  }
+
   return html`
     <main>
       <h1 className='header'>KRY status poller</h1>
@@ -91,17 +100,20 @@ const ServicePoller = () => {
         `}
         
       <br />
-      <input id="url-name" placeholder='Service Name'/>
-      <input id="url-input" placeholder='Service URL'/>
+      <label htmlFor='${UI_SERVICE_NAME}'>${i18n(UI_SERVICE_NAME)} : </label>
+      <input id='${UI_SERVICE_NAME}' placeholder='${i18n(UI_SERVICE_NAME)}'/>
       <br/>
-      <button onClick='${(e)=>addUpdateService({ url:e.target.value, name:this})}' className='btn update'>Save</button>
-      <button onClick='${(e)=>clearService()}' className='btn delete'>Clear</button>
+      <label htmlFor='${UI_SERVICE_URL}'>${i18n(UI_SERVICE_URL)} : </label>
+      <input id="${UI_SERVICE_URL}" placeholder='${i18n(UI_SERVICE_URL)}'/>
+      <br/>
+      <button onClick='${(e)=>addUpdateService({ url:e.target.value, name:this})}' className='btn update'>${i18n('Save')}</button>
+      <button onClick='${(e)=>clearService()}' className='btn delete'>${i18n('Clear')}</button>
       <ul>
         ${services.map(
           (service) => html`
             <li key=${service.url} className='service'><h3>${service.url}</h3> 
-            <button onClick='${()=>editService(service)}' className='btn update'>Edit</button>
-            <button onClick='${()=>deleteService(service)}' className='btn delete'>Delete</button>
+            <button onClick='${()=>editService(service)}' className='btn update'>${i18n('Edit')}</button>
+            <button onClick='${()=>deleteService(service)}' className='btn delete'>${i18n('Delete')}</button>
             </li>
           `
         )}
