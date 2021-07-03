@@ -9,10 +9,10 @@ const UI_SERVICE_URL = 'ServiceURL';
 const ServicePoller = () => {
   const [error, setError] = React.useState(null);
   const [services, setServices] = React.useState([
-      { url: "kry.se" },
-      { url: "google.se" },
-      { url: "www.livi.co.uk" },
-      { url: "mintymods.info" },
+      { url: "kry.se", name: 'Kry' },
+      { url: "google.se", name: 'Google' },
+      { url: "www.livi.co.uk", name: 'Livi' },
+      { url: "mintymods.info", name: 'Minty' },
     ]);
   const [service, setService] = React.useState(null);    
 
@@ -63,10 +63,10 @@ const ServicePoller = () => {
   }
 
   const isValidService = (service) => {
-    if (!service || !service.url.length > 0) {
-      throw new Error('Please supply a valid URL to poll');
+    if (service || service.url.length > 0) {
+      return service ? isValidUrl(service.url) : false;
     }
-    return service ? isValidUrl(service.url) : false;
+    throw new Error('Please supply a valid URL to poll');
   }
   
   const isValidUrl = (url) => {
@@ -85,6 +85,7 @@ const ServicePoller = () => {
   const clearService = () => {
     setValue(UI_SERVICE_NAME, '');
     setValue(UI_SERVICE_URL, '');
+    setError(null);
   }
   
   const setValue = (id, value) => {
