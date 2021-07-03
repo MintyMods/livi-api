@@ -2,63 +2,107 @@ import { React, ReactDOM } from "https://unpkg.com/es-react/dev";
 import htm from "https://cdn.pika.dev/htm";
 
 const html = htm.bind(React.createElement);
-
-const services = [
-  { url: "kry.se" },
-  { url: "google.se" },
-  { url: "www.livi.co.uk" },
-];
+const BACKEND_URL = "/service";
 
 const ServicePoller = () => {
   const [error, setError] = React.useState(null);
+  const [services, setServices] = React.useState([
+      { url: "kry.se" },
+      { url: "google.se" },
+      { url: "www.livi.co.uk" },
+    ]);
 
   React.useEffect(() => {
-    fetch("/service", {
+    sendRequest('GET', null);
+  }, []);
+
+  const sendRequest = (method, service) => {
+    console.info(method, service);
+    let body = service ? JSON.stringify(service) : null;
+    fetch(BACKEND_URL, {
       headers: {
        Accept: 'application/json',
        'Content-Type': 'application/json'
      },
-     mode: 'cors',
+      mode: 'cors',
+      method,
+      body,
     })
-      .then((res) => (services = res))
-      .catch(setError);
-  }, []);
+    .then((res) => checkResponse(res))
+    .then((res) => (services = res))
+    .catch(setError);  
+  }
 
+  const checkResponse = (res) => {
+    if (!res.ok) {
+      throw new Error(res.status + " BackEnd Error: " + res.statusText);
+    }
+    return res;
+  }  
+
+  const addUpdateService = (service) => {
+    try {
+      if (isValidService(service)) {
+        if (isServiceAlreadyExist(service)) {
+          sendRequest('POST', service);
+        } else {
+          sendRequest('PUT', service);
+        }
+      } 
+    } catch (e) {
+      setError(e);
+    }
+  }
+  
+  const deleteService = (service) => {
+    sendRequest('DELETE', service);
+  }
+
+  const isValidService = (service) => {
+    if (!service || !service.url.length > 0) {
+      throw new Error('Please supply a valid URL to poll');
+    }
+    return service ? isValidUrl(service.url) : false;
+  }
+  
+  const isValidUrl = (url) => {
+    return parsed = new URL(url) ? parsed.protocol === "http:" || parsed.protocol === "https:" : false;
+  }
+
+  const isServiceAlreadyExist = (service) => {
+    return services.filter((s)=> s.url == service.url).length > 0;
+  }
+
+  const editService = (service) => {
+    document.getElementById('url-input').value = service.url;
+  }
+
+  const clearService = () => {
+    document.getElementById('url-input').value="";
+  }
+  
   return html`
     <main>
-      <h1>KRY status poller</h1>
-
+      <h1 className='header'>KRY status poller</h1>
       ${error != null &&
         html`
-          <div style=${{ color: "red" }}>${error.message}</div>
+          <div className='error'>${error.message}</div>
+          <!-- @todo Remove this error after X secs or activety -->
         `}
-
+        
       <br />
-
-      <input id="url-input" />
-
-      <a
-        href="#"
-        onClick=${() => {
-          console.log(JSON.stringify({ url: document.getElementById("url-input").value, name: 'test' }))
-          fetch("/service", {
-            headers: {
-             Accept: 'application/json',
-             'Content-Type': 'application/json'
-           },
-            method: 'POST',
-            body:{ url: document.getElementById("url-input").value, name: 'test' },
-          })
-        }}
-        style=${{ marginLeft: "1rem" }}
-      >
-        Save
-      </a>
-
+      <input id="url-name" placeholder='Service Name'/>
+      <input id="url-input" placeholder='Service URL'/>
+      <br/>
+      <button onClick='${(e)=>addUpdateService({ url:e.target.value, name:this})}' className='btn update'>Save</button>
+      <button onClick='${(e)=>clearService()}' className='btn delete'>Clear</button>
       <ul>
         ${services.map(
-          (s) => html`
-            <li>${s.url}</li>
+          (service) => html`
+            <li key=${service.url} className='service'><h3>${service.url}</h3> 
+            <button onClick='${()=>editService(service)}' className='btn update'>Edit</button>
+            <button onClick='${()=>deleteService(service)}' className='btn delete'>Delete</button>
+            </li>
           `
         )}
       </ul>
@@ -66,4 +110,4 @@ const ServicePoller = () => {
   `;
 };
 
-ReactDOM.render(React.createElement(ServicePoller), document.body);
+ReactDOM.render(React.createElement(ServicePoller), document.getElementById('app'));
