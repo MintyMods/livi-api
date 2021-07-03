@@ -96,7 +96,7 @@ const ServicePoller = () => {
   }
 
   return html`
-    <main>
+    <div className='main'>
       <h1 className='header'>KRY status poller</h1>
       ${error != null &&
         html`
@@ -125,7 +125,7 @@ const ServicePoller = () => {
           `
         )}
       </ul>
-    </main>
+    </div>
   `;
 };
 
