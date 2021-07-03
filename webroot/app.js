@@ -6,14 +6,15 @@ const BACKEND_URL = '/service';
 const UI_SERVICE_NAME = 'ServiceName';
 const UI_SERVICE_URL = 'ServiceURL';
 
-
 const ServicePoller = () => {
   const [error, setError] = React.useState(null);
   const [services, setServices] = React.useState([
       { url: "kry.se" },
       { url: "google.se" },
       { url: "www.livi.co.uk" },
+      { url: "mintymods.info" },
     ]);
+  const [service, setService] = React.useState(null);    
 
   React.useEffect(() => {
     sendRequest('GET', null);
@@ -103,21 +104,23 @@ const ServicePoller = () => {
           <!-- @todo Remove this error after X secs or activety -->
         `}
         
-      <br />
-      <label htmlFor='${UI_SERVICE_NAME}'>${i18n(UI_SERVICE_NAME)} : </label>
-      <input id='${UI_SERVICE_NAME}' placeholder='${i18n(UI_SERVICE_NAME)}'/>
       <br/>
-      <label htmlFor='${UI_SERVICE_URL}'>${i18n(UI_SERVICE_URL)} : </label>
-      <input id="${UI_SERVICE_URL}" placeholder='${i18n(UI_SERVICE_URL)}'/>
+      <div className='service-form-wrapper'>
+      <label htmlFor='${UI_SERVICE_NAME}' className='form-control'>${i18n(UI_SERVICE_NAME)} : </label>
+      <input id='${UI_SERVICE_NAME}' className='form-control' placeholder='${i18n(UI_SERVICE_NAME)}'/>
       <br/>
-      <button onClick='${(e)=>addUpdateService({ url:e.target.value, name:this})}' className='btn update'>${i18n('Save')}</button>
-      <button onClick='${(e)=>clearService()}' className='btn delete'>${i18n('Clear')}</button>
+      <label htmlFor='${UI_SERVICE_URL}' className='form-control'>${i18n(UI_SERVICE_URL)} : </label>
+      <input id="${UI_SERVICE_URL}"  className='form-control' placeholder='${i18n(UI_SERVICE_URL)}'/>
+      <br/>
+      <button onClick='${(e)=>addUpdateService({ url:e.target.value, name:this})}' className='btn primary'>${i18n('Save')}</button>
+      <button onClick='${(e)=>clearService()}' className='btn secondary'>${i18n('Clear')}</button>
+      </div>
       <ul>
         ${services.map(
           (service) => html`
             <li key=${service.url} className='service'><h3>${service.url}</h3> 
-            <button onClick='${()=>editService(service)}' className='btn update'>${i18n('Edit')}</button>
-            <button onClick='${()=>deleteService(service)}' className='btn delete'>${i18n('Delete')}</button>
+            <button onClick='${()=>editService(service)}' className='btn primary'>${i18n('Edit')}</button>
+            <button onClick='${()=>deleteService(service)}' className='btn secondary'>${i18n('Delete')}</button>
             </li>
           `
         )}

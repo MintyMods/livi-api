@@ -12,32 +12,29 @@
   }
   
   main {
-    max-width: 500px;
     overflow: auto;
-    min-height: 300px;
-    border: 1px solid steelblue;
-    padding: 30px;
+    border: 1px solid black;
+    padding: 10px;
     border-radius: 5px;
-    width: 40rem;
     margin: 4rem auto;
-
   }
   
   .header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
   }
   
   .error {
-      color:red;
+      color:yellow;
+      background-color:red;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 5px;
   }
 
   .btn {
     display: inline-block;
-    background: #000;
-    color: #fff;
+    color: white;
     border: none;
     padding: 10px 20px;
     margin: 5px;
@@ -45,15 +42,6 @@
     cursor: pointer;
     text-decoration: none;
     font-size: 15px;
-    font-family: inherit;
-  }
-  
-  .btn:focus {
-    outline: none;
-  }
-  
-  .btn:active {
-    transform: scale(0.98);
   }
   
   .btn-block {
@@ -61,19 +49,21 @@
     width: 100%;
   }
  
-  .update {
+  .primary {
     background-color: green;
   }
-  .delete {
+  .secondary {
     background-color: red;
   }
  
-
   .service {
     background: #f4f4f4;
     margin: 5px;
-    padding: 10px 20px;
+    padding: 10px;
     display: inherit;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 5px;
   }
   
   .service.status {
@@ -86,16 +76,21 @@
     justify-content: space-between;
   }
   
-  .add-form {
+  .service-form-wrapper {
+    border: 1px solid black;
+    padding: 30px;
+    border-radius: 5px;
     margin-bottom: 40px;
   }
   
   .form-control {
     margin: 20px 0;
+    cursor: pointer;
   }
   
   .form-control label {
     display: block;
+    cursor: pointer;
   }
   
   .form-control input {
