@@ -63,7 +63,7 @@ const ServicePoller = () => {
   }
 
   const isValidService = (service) => {
-    if (service || service.url.length > 0) {
+    if (service && service.url.length > 0) {
       return service ? isValidUrl(service.url) : false;
     }
     throw new Error('Please supply a valid URL to poll');
