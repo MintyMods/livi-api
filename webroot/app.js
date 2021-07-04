@@ -28,9 +28,7 @@ const ServicePoller = () => {
        Accept: 'application/json',
        'Content-Type': 'application/json'
      },
-      mode: 'cors',
-      method,
-      body,
+      method, body, mode: 'cors',
     })
     .then((res) => checkResponse(res))
     .then((res) => setServices(res))
@@ -92,8 +90,8 @@ const ServicePoller = () => {
     document.getElementById(id).value = value;
   }
 
-  const i18n = (msg) => {
-    return msg.replace(/([a-z])([A-Z])/g, '$1 $2');
+  const i18n = (text) => {
+    return text.replace(/([a-z])([A-Z])/g, '$1 $2');
   }
 
   return html`
@@ -103,8 +101,8 @@ const ServicePoller = () => {
         html`
           <div className='error'>${error.message}</div>
           <!-- @todo Remove this error after X secs or activety -->
-        `}
-        
+        `
+      }
       <br/>
       <div className='service-form-wrapper'>
       <label htmlFor='${UI_SERVICE_NAME}' className='form-control'>${i18n(UI_SERVICE_NAME)} : </label>
@@ -129,5 +127,4 @@ const ServicePoller = () => {
     </div>
   `;
 };
-
 ReactDOM.render(React.createElement(ServicePoller), document.getElementById('app'));
