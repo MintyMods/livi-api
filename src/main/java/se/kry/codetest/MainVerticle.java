@@ -12,10 +12,9 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
-import se.kry.codetest.registry.model.Service;
-import se.kry.codetest.registry.model.ServiceStatus;
 import se.kry.codetest.registry.ServiceRegistry;
 import se.kry.codetest.registry.ServiceRegistryFactory;
+import se.kry.codetest.registry.model.ServiceStatus;
 
 /**
  * Deploys a verticle that keeps a registry of services and their latest status. It also regularly polls
@@ -23,7 +22,8 @@ import se.kry.codetest.registry.ServiceRegistryFactory;
  */
 public class MainVerticle extends AbstractVerticle {
 
-  private ServiceRegistry registry;
+    private static final int PORT_NUMBER = 80;
+private ServiceRegistry registry;
   private BackgroundPoller poller;
 
   @Override
@@ -61,7 +61,7 @@ public class MainVerticle extends AbstractVerticle {
     vertx
       .createHttpServer()
       .requestHandler(router)
-      .listen(8080, result -> {
+      .listen(PORT_NUMBER, result -> {
         if (result.succeeded()) {
           System.out.println("KRY code test service started");
           future.complete();
@@ -72,9 +72,9 @@ public class MainVerticle extends AbstractVerticle {
     return future;
 }
 
-  /**
-   * Set the different routes for this service.
-   */
+    /**
+     * Set the different routes for this service. +PORT_NUMBER
+     */
   private void setRoutes(Router router){
     router.route("/*").handler(
     CorsHandler.create("http://localhost:3000")
