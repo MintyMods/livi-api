@@ -3,7 +3,7 @@ package se.kry.codetest.registry.model;
 import java.net.URL;
 import java.time.Instant;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.vertx.core.json.Json;
 
 /**
  * Describes a service registered in the internal registry.
@@ -63,11 +63,6 @@ public class Service {
      * @return The json payload.
      */
     public static String toString(Service service) {
-        try {
-            final ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(service);
-        } catch (Exception e) {
-            return null;
-        }
+        return Json.encode(service);
     }
 }

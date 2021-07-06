@@ -9,17 +9,17 @@ const UI_SERVICE_URL = 'ServiceURL';
 const ServicePoller = () => {
   const [error, setError] = React.useState(null);
   const [services, setServices] = React.useState([
-      { url: "kry.se", name: 'Kry' },
+      { url: "http://kry.se", name: 'Kry' },
       { url: "google.se", name: 'Google' },
       { url: "www.livi.co.uk", name: 'Livi' },
-      { url: "mintymods.info", name: 'Minty' },
+      { url: "https://mintymods.info", name: 'Minty' },
     ]);
   const [service, setService] = React.useState(null);    
 
   React.useEffect(() => {
     sendRequest('GET', null);
-  }, []);
-
+  }, []); //}, [services]);
+  
   const sendRequest = (method, service) => {
     console.info(method, service);
     let body = service ? JSON.stringify(service) : null;
