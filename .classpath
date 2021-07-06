@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="lib" path="libs/vertx-core-3.6.3.jar"/>
+	<classpathentry kind="lib" path="libs/vertx-web-3.6.3.jar"/>
+	<classpathentry kind="lib" path="libs/vertx-web-client-3.6.3.jar"/>
+	<classpathentry kind="lib" path="libs/vertx-jdbc-client-3.6.3.jar"/>
+	<classpathentry kind="lib" path="libs/vertx-sql-common-3.6.3.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="libs/vertx-junit5-3.6.3.jar"/>
+	<classpathentry kind="lib" path="libs/mockito-core-3.11.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
